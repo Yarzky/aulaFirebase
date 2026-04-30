@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Mensagens {
   String user = "";
   String friend = "";
@@ -16,5 +18,5 @@ class Mensagens {
     : user = snapshot['user'],
       friend = snapshot['friend'],
       msg = snapshot['msg'],
-      dt = snapshot['dt'].toDate();
+      dt = (snapshot['dt'] as Timestamp).toDate();
 }
