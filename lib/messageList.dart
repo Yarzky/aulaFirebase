@@ -75,6 +75,11 @@ class _MessageListState extends State<MessageList> {
             .map((doc) => Mensagens.fromSnapshot(doc))
             .toList();
       });
+    }).catchError((error) {
+      print("Erro ao buscar histórico: $error");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Erro ao buscar histórico: $error"), backgroundColor: Colors.red),
+      );
     });
   }
 }

@@ -14,9 +14,18 @@ class Mensagens {
     'dt': dt,
   };
 
-  Mensagens.fromSnapshot(DocumentSnapshot snapshot)
-    : user = snapshot['user'],
-      friend = snapshot['friend'],
-      msg = snapshot['msg'],
-      dt = (snapshot['dt'] as Timestamp).toDate();
+  Mensagens.fromSnapshot(DocumentSnapshot snapshot) {
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    user = data['user'] ?? "";
+    friend = data['friend'] ?? "";
+    msg = data['msg'] ?? "";
+    
+    if (data['dt'] is Timestamp) {
+      dt = (data['dt'] as Timestamp).toDate();
+    } else if (data['dt'] is String) {
+      dt = DateTime.tryParse(data['dt']) ?? DateTime.now();
+    } else {
+      dt = DateTime.now();
+    }
+  }
 }

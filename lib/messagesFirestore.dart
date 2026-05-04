@@ -23,9 +23,14 @@ class _MensagensFirestoreState extends State<MensagensFirestore> {
   List _resultsList = [];
 
   @override
+  void initState() {
+    super.initState();
+    _user.text = widget.user;
+    _friend.text = widget.friend;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    _user.text = widget.user.toString();
-    _friend.text = widget.friend.toString();
     return Scaffold(
       appBar: AppBar(
         title: Text("Mensagens"),
@@ -81,6 +86,11 @@ class _MensagensFirestoreState extends State<MensagensFirestore> {
       ScaffoldMessenger.of(ctx).showSnackBar(
         SnackBar(content: Text("Mensagem enviada!")),
       );
+    }).catchError((error) {
+      print("Erro ao enviar: $error");
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        SnackBar(content: Text("Erro ao enviar: $error"), backgroundColor: Colors.red),
+      );
     });
 
     _msg.text = "";
@@ -100,6 +110,11 @@ class _MensagensFirestoreState extends State<MensagensFirestore> {
             .map((doc) => Mensagens.fromSnapshot(doc))
             .toList();
       });
+    }).catchError((error) {
+      print("Erro ao buscar: $error");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Erro ao buscar: $error"), backgroundColor: Colors.red),
+      );
     });
   }
 }
